@@ -5,9 +5,7 @@ on:
 name: Release
 jobs:
   releases:
-    if: github.event.review.state == 'approved'
     name: Release Production
-    needs: upload-firebase
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
