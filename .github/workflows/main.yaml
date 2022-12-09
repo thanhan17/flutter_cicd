@@ -26,7 +26,7 @@ jobs:
     - name: Release APK
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/flutter-apk/*.apk,build/app/outputs/bundle/release/*.apk"
+        artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/*.apk"
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
