@@ -22,13 +22,7 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: flutter build apk
-    - run: flutter build appbundle
-    - name: Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/*.apk"
-        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: flutter build apk --build-name ${{ steps.vars.outputs.tag }} --build-number $GITHUB_RUN_NUMBER
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -52,3 +46,36 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
           file: app-release.apk
+
+  releases:
+    name: Release Production
+    needs: upload-firebase
+    runs-on: ubuntu-latest
+    steps:
+    - uses: trstringer/manual-approval@v1
+      with:
+        secret: ${{ secrets.GITHUB_TOKEN }}
+        approvers: thanhan17
+        minimum-approvals: 1
+        issue-title: "Deploy ${{ steps.vars.outputs.tag }} to prod from staging"
+        exclude-workflow-initiator-as-approver: false
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '12.x'
+        cache: gradle
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.3.9'
+        cache: true
+        channel: 'stable'
+    - run: flutter pub get
+    - run: flutter analyze
+    - run: flutter test
+    - run: flutter build apk --build-name ${{ steps.vars.outputs.tag }} --build-number $GITHUB_RUN_NUMBER
+    - name: Release APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/*.apk"
+        token: ${{ secrets.GITHUB_TOKEN }}
