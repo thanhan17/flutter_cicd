@@ -22,8 +22,7 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-    - run: flutter build apk --build-name ${{ steps.vars.outputs.tag }} --build-number $GITHUB_RUN_NUMBER
+    - run: flutter build apk --build-name ${{ github.ref_name }} --build-number $GITHUB_RUN_NUMBER
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
