@@ -1,4 +1,7 @@
-on: push
+on: 
+  push: 
+    tags: 
+      - '*'
 name: CI/CD Flutter with Github Actions
 jobs:
   CICD:
