@@ -4,7 +4,7 @@ on:
       - '*'
 name: CI/CD Flutter with Github Actions
 jobs:
-  Build:
+  build:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -34,9 +34,9 @@ jobs:
         name: artifact
         path: build/app/outputs/bundle/release/app-release.aab
 
-  Upload-firebase:
+  upload-firebase:
     name: Deploy Firebase App Distribution
-    needs: build-android
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
