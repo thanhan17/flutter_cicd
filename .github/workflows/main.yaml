@@ -5,7 +5,7 @@ on:
 name: CI/CD Flutter with Github Actions
 jobs:
   build:
-    name: Build
+    name: Test and Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -21,12 +21,12 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: flutter build apk --split-per-abi
+    - run: flutter build apk
     - run: flutter build appbundle
     - name: Release APK
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/apk/release/app-release.apk"
+        artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/*.apk"
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
