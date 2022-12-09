@@ -1,8 +1,7 @@
 on:
-  pull_request_review:
-    branchs:
-      - main
-    types: [submitted]
+  pull_request:
+    types: [closed]
+    branches: ["main"]
 name: Release
 jobs:
   releases:
@@ -25,7 +24,7 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: flutter build apk --build-name ${{ github.ref_name }} --build-number ${{ github.run_number }}
+    - run: flutter build apk
     - name: Release APK
       uses: ncipollo/release-action@v1
       with:
