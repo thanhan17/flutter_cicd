@@ -22,7 +22,7 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: flutter build apk --build-name ${{ github.ref_name }} --build-number $GITHUB_RUN_NUMBER
+    - run: flutter build apk --build-name ${{ github.ref_name }} --build-number ${{ github.run_number }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
