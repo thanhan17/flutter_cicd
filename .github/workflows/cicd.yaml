@@ -49,6 +49,7 @@ jobs:
   
   release:
     name: Release Production
+    needs: upload-firebase
     runs-on: ubuntu-latest
     steps:
     - uses: trstringer/manual-approval@v1
