@@ -28,6 +28,11 @@ jobs:
       with:
         name: artifact
         path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Release APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+        token: ${{ secrets.GITHUB_TOKEN }}
 
   upload-firebase:
     name: Deploy Firebase App Distribution
