@@ -2,7 +2,7 @@ on:
   push: 
     tags: 
       - '*'
-name: CI/CD Flutter with Github Actions
+name: CI/CD Flutter CH Play with Github Actions
 jobs:
   release:
     name: Release Production
@@ -22,7 +22,6 @@ jobs:
     - run: flutter pub get
     - run: flutter analyze
     - run: flutter test
-    - run: flutter build appbundle
     - name: Download Android keystore
       id: android_keystore
       uses: timheuer/base64-to-file@v1.0.3
@@ -35,6 +34,7 @@ jobs:
         echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
         echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
         echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+    - run: flutter build appbundle
     - name: Deploy to Play Store
       uses: r0adkll/upload-google-play@v1.0.17
       with:
